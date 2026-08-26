@@ -32,13 +32,14 @@ Urutan pemuatan komponen adalah sebagai berikut:
         Versi terbaru Microsoft Visual C++ Redistributable Yang ada di situs Resmi Microsoft
     </figcaption>
 </figure>
+<br/>
 
 Halaman terpisah untuk mengunduh paket Microsoft Visual C++ yang dapat didistribusikan ulang juga tersedia di situs web Microsoft:
 - [Visual C++ 2013](https://support.microsoft.com/ru-ru/help/3179560/update-for-visual-c-2013-and-visual-c-redistributable-package) (di bagian kedua halaman terdapat tautan langsung untuk mengunduh versi x86 dan x64)
-- Visual C++ 2010
-- Visual C++ 2008
-- Visual C++ 2017 (x64)
-- Visual C++ 2015 - halaman unduhan pertama dan kedua di situs web resmi
+- [Visual C++ 2010](https://www.microsoft.com/ru-ru/download/details.aspx?id=26999)
+- [Visual C++ 2008](https://www.microsoft.com/ru-ru/download/details.aspx?id=26368)
+- [Visual C++ 2017 (x64)](https://go.microsoft.com/fwlink/?LinkId=746572)
+- Visual C++ 2015 - halaman unduhan [pertama](https://www.microsoft.com/ru-ru/download/details.aspx?id=53840) dan [kedua](https://www.microsoft.com/ru-ru/download/details.aspx?id=52685) di situs web resmi
 Setelah mengunduh komponen Visual C++ yang diperlukan, jalankan file yang diunduh dan lakukan seluruh proses instalasi.
 
 
