@@ -29,131 +29,86 @@ Hal ini dapat diilustrasikan dengan dua contoh traceroute berikut ke host yang s
 
 
 ```bash
-traceroute unixwinbsd.site
+root@ns1:~# traceroute unixwinbsd.site
+traceroute to unixwinbsd.site (64.190.63.222), 30 hops max, 60 byte packets
+ 1  192.168.17.1 (192.168.17.1)  0.180 ms  0.176 ms  0.133 ms
+ 2  192.168.1.1 (192.168.1.1)  0.651 ms  0.760 ms  0.881 ms
+ 3  36.70.96.1 (36.70.96.1)  2.701 ms  3.155 ms  3.241 ms
+ 4  180.252.2.141 (180.252.2.141)  3.526 ms  3.787 ms  3.926 ms
+ 5  180.240.190.77 (180.240.190.77)  96.032 ms  16.635 ms  18.080 ms
+ 6  180.240.190.77 (180.240.190.77)  17.020 ms  14.468 ms  15.354 ms
+ 7  180.240.192.233 (180.240.192.233)  170.584 ms  187.078 ms  170.548 ms
+ 8  180.240.196.1 (180.240.196.1)  169.914 ms  166.764 ms  170.556 ms
+ 9  193.239.116.37 (193.239.116.37)  190.583 ms  211.423 ms  196.257 ms
+10  lo-0-0.bb-a.ess.muc.de.net.ionos.com (212.227.117.142)  189.415 ms  206.294 ms  193.498 ms
+11  lo-0-0.rc-a.ess.muc.de.net.ionos.com (212.227.117.118)  189.902 ms  206.117 ms  207.581 ms
+12  * * *
+13  * * *
+14  * * *
+15  * * *
+16  * * *
+17  * * *
+18  * * *
+19  * * *
+20  * * *
+21  * * *
+22  * * *
+23  * * *
+24  * * *
+25  * * *
+26  * * *
+27  * * *
+28  * * *
+29  * * *
+30  * * *
+root@ns1:~#
 ```
 
-To set the scaling governor back to `performance` on each reboot, run `crontab -e` and change `powersave` to `performance`.
-
-For grins and giggles, I tried to passthrough the dedicated AMD Radeon Pro GPU through to a Debian 13 virtual machine using the "[PCI Passthrough](https://pve.proxmox.com/wiki/PCI_Passthrough)" article in Proxmox's wiki and a [forum post with instructions](https://forum.proxmox.com/threads/pci-gpu-passthrough-on-proxmox-ve-8-installation-and-configuration.130218/) for Proxmox VE 8 (though they would also apply to version 9). Unfortunately, even with IOMMU and drivers blacklisted, I encountered the AMD GPU reset bug and it caused the laptop to crash and lock up. Thankfully, the laptop booted back up just fine. Since it's not something that I will need, I decided to undo the changes.
-
-The 2016 MBP was *not* going to break any performance records and would not perform nearly as well as my other two Proxmox VE servers, in part to the older generation Intel Core processor and in part to Apple's decision to make the laptop thin at the great expense to thermals. At idle, the core temperatures will sit around 60 degrees C and spiking up to around 70-75 degrees C under lighter loads with the CPU scaling governor set to `powersave`. When running a stress test in the Debian 13 virtual machine, most of the core temperatures spiked to 90-93 degrees C no matter if the governor was set to `powersave` or `performance`.
-
-### 2019 MacBook Pro
-
-Even with the successful installation and use of Proxmox VE 9 on the 2016 MBP, I was quite pessimistic when it came to the [16-inch 2019 MacBook Pro](https://support.apple.com/en-us/111932) (identifiers: [MacBookPro16,1 / A2141](https://everymac.com/systems/apple/macbook_pro/specs/macbook-pro-core-i9-2.3-eight-core-16-2019-scissor-specs.html)). I knew going in that the Apple computers with the [Apple T2](https://en.wikipedia.org/wiki/Apple_T2) security chip could cause additional headaches.
-
-The 2019 MBP has an [Intel Core i9-9880H processor](https://www.intel.com/content/www/us/en/products/sku/192987/intel-core-i99880h-processor-16m-cache-up-to-4-80-ghz/specifications.html), 32 GB of RAM, 2 TB of storage, an AMD Radeon Pro 5500M, a Touch Bar, and most importantly and the reason why I ordered the laptop as soon as it was orderable, a scissor-switch keyboard. While the keyboard was so much better than the awful butterfly-switch keyboard Apple inflicted on their MacBook laptops for far too long, thermals was still a major issue, especially with a Core i9 processor. As with the 2016 MBP, I primarily used the laptop for development, editing photos and images, amongst the usual stuff.
-
-<div class="row">
-    <div class="col col-6">
-        <figure class="figure">
-            <a target="_blank" href="/assets/images/mbp-proxmox/2019-mbp-proxmox-summary.png">
-            <img src="/assets/images/mbp-proxmox/2019-mbp-proxmox-summary.png" class="img-fluid border" alt="Proxmox VE Host Summary Page for a 2019 Apple MacBook Pro">
-            </a>
-            <figcaption class="figure-caption text-center">
-                Proxmox VE Node Summary for a 2019 Apple MacBook Pro
-            </figcaption>
-        </figure>
-    </div>
-    <div class="col col-6">
-        <figure class="figure">
-            <a target="_blank" href="/assets/images/mbp-proxmox/2019-mbp-proxmox-fastfetch.png">
-            <img src="/assets/images/mbp-proxmox/2019-mbp-proxmox-fastfetch.png" class="img-fluid border" alt="Output of the fastfetch command running under Proxmox VE 9 on a 2019 Apple MacBook Pro">
-            </a>
-            <figcaption class="figure-caption text-center">
-                Obligatory fastfetch Output for the 2019 MacBook Pro
-            </figcaption>
-        </figure>
-    </div>
-</div>
-
-I used an Anker PowerShare 5-in-1 USB Type-C hub (there is a [newer version of the hub](https://www.anker.com/products/a8338) that I don't have and have not tested with Linux) and the IODD drive to try to boot the Proxmox VE 9 installer on the 2019 MBP while holding down the `Option` key, but choosing the "GRUB" option would eventually boot the laptop into recovery mode (while macOS was still installed) and stated that an update needed to be installed in order to boot from the installer ISO. I chose to run the update, which took a few minutes and a reboot of the laptop, I ran into the same issue. I tried booting using the `EFI Boot` boot device selection, but the laptop just rebooted. At that point, I remembered that the laptop had the Secure Boot setting defaulted to "Full Security" in the "Startup Security Utility". I used the instructions found in Apple's "[About Startup Security Utility on a Mac with the Apple T2 Security Chip](https://support.apple.com/en-us/102522)" support document to set the "Secure Boot" setting to "No Security". Upon rebooting, I was finally able to boot into the Proxmox installer using the `EFI Boot` boot device selection.
-
-I'm not certain that the Secure Boot setting would be an issue for all of the 2019-2020 MacBook Pro laptops, as it may depend on the firmware version on each laptop and other variables that I may or may not know about.
-
-While the laptop keyboard did work at the GRUB boot menu, it would not work in the text-based installer. So, out came the USB keyboard and I was able to finish the installation. While booting into the installation environment, there was around a 30 second pause with the following messages printed to the console:
-
-```text
-Starting systemd-udevd version 257.7-1
-Synthesizing the initial hotplug events (subsystem)
-Synthesizing the initial hotplug events (devices)
-Waiting for /dev to be fully populated
-```
-
-No other error messages appeared between the pause and the installer starting up. As with the 2016 MBP, the installer found the USB Gigabit Ethernet controller and was able to get a DHCP address. Unfortunately, that's when things started to go a bit wrong.
-
-With the installation complete and the laptop rebooting, I noticed that there was a longer pause when Proxmox was trying to stand up a network connection and the `vmbr0` bridge interface. There were a couple of error messages that were written out to the console:
-
-```text
-[FAILED] Failed to start ifupdown2-pre.service - Helper to synchronize boot up for ifupdown.
-[DEPEND] Dependency failed for networking.service - Network initialization
-[FAILED] Failed to start systemd-udev-settle.service - Wait for udev To Complete Device Initialization.
-[DEPEND] Dependency failed for zfs-import-cache.service - Import ZFS pools by cache file.
-```
-
-After the pause, the login prompt would appear with the static IP address I had configured during the installation process. So, I tried pinging the IP address, but no response. I logged in through the console and ran `ip link` and saw that the corresponding network interface shown as `DOWN` and `vmbr0` was not listed. Running `ifup` and `ifdown` did not help, but I was able to get the interface and `vmbr0` to come up after running:
+Tanda bintang pada contoh di atas menunjukkan bahwa kami tidak mengenali beberapa node. Sekarang kita coba dengan menambahkan flags `-I`. Lihat hasilnya.
 
 ```bash
-systemctl restart ifupdown2-pre.service
-systemctl restart networking.service
+root@ns1:~# traceroute -I unixwinbsd.site
+traceroute to unixwinbsd.site (64.190.63.222), 30 hops max, 60 byte packets
+ 1  192.168.17.1 (192.168.17.1)  0.356 ms  57.473 ms *
+ 2  192.168.1.1 (192.168.1.1)  57.536 ms  0.777 ms  0.933 ms
+ 3  36.70.96.1 (36.70.96.1)  2.946 ms * *
+ 4  * * *
+ 5  * * *
+ 6  * * *
+ 7  * * *
+ 8  * 180.240.196.1 (180.240.196.1)  176.946 ms  176.771 ms
+ 9  193.239.116.37 (193.239.116.37)  190.257 ms * *
+10  lo-0-0.bb-a.ess.muc.de.net.ionos.com (212.227.117.142)  187.481 ms  187.789 ms  188.386 ms
+11  lo-0-0.rc-a.ess.muc.de.net.ionos.com (212.227.117.118)  187.869 ms  188.004 ms  188.464 ms
+12  ve-1460.bb-1-slx-sedo.ess.muc.de.net.ionos.com (212.227.158.119)  197.632 ms * *
+13  91.195.241.102 (91.195.241.102)  190.068 ms  190.381 ms *
+14  * * *
+15  * * *
+16  * * *
+17  * * *
+18  64.190.63.222 (64.190.63.222)  186.675 ms  187.011 ms  186.996 ms
+root@ns1:~#
 ```
 
-Unfortunately, the network interfaces would not come back up after a reboot, necessitating running the commands each and every time the laptop was booted. When the network interfaces were up, I was able to get to the Proxmox VE web interface and test things out. Since I wanted to be able to run the laptop headless, having to go through the whole rigmarole of restarting services after each boot would be too much work.
+Dengan menambahkan flags `-I` beberapa node mulai dapat ditemukan.
 
-<div class="row">
-    <div class="col col-6">
-        <figure class="figure">
-            <a target="_blank" href="/assets/images/mbp-proxmox/2019-mbp-almalinux-10-fastfetch.png">
-            <img src="/assets/images/mbp-proxmox/2019-mbp-almalinux-10-fastfetch.png" class="img-fluid border" alt="Fastfetch output from an AlmaLinux 10 virtual machine running under Proxmox VE 9 on a 2019 Apple MacBook Pro">
-            </a>
-            <figcaption class="figure-caption text-center">
-                Obligatory fastfetch Output from an AlmaLinux 10 Proxmox Virtual Machine Running on a 2019 MacBook Pro
-            </figcaption>
-        </figure>
-    </div>
-    <div class="col col-6">
-        <figure class="figure">
-            <a target="_blank" href="/assets/images/mbp-proxmox/2019-mbp-almalinux-10-cockpit.png">
-            <img src="/assets/images/mbp-proxmox/2019-mbp-almalinux-10-cockpit.png" class="img-fluid border" alt="Cockpit web interface for an AlmaLinux 10 virtual machine running under Proxmox VE 9 on a 2019 Apple MacBook Pro">
-            </a>
-            <figcaption class="figure-caption text-center">
-                Cockpit Web Interface for an AlmaLinux 10 Proxmox Virtual Machine Running on a 2019 MacBook Pro
-            </figcaption>
-        </figure>
-    </div>
-</div>
+Berkat perubahan metode penelusuran, semua node perantara dapat ditemukan. Metode lain mungkin memberikan hasil yang berbeda dari yang ditunjukkan.
 
-I didn't have a lot of spare time to figure out why the network interface would not automatically come up on reboot and what was causing that pause during the boot process.
+Beberapa program memungkinkan Anda memilih metode penelusuran, mengubah nomor port, dan juga mengatur nilai beberapa bidang di header paket.
 
-### Extending Battery Life
 
-In order to extend the life of the battery while running Proxmox VE, I will need to look at ways to cap the battery charge level by way of `tlp` or `upower`. Without that, the battery will charge up to and stay charged at around 100% of the usable capacity. That is not a good thing.
 
-I found a GitHub repo, [applesmc-next](https://github.com/c---/applesmc-next), that provides the required kernel module that exposes the required control, specifically `/sys/class/power_supply/BAT0/charge_control_end_threshold`. Instead of installing the standard `linux-headers` metapackage in Proxmox VE 9, I had to install the `pve-headers` metapackage before I could build and install the module via DKMS.
+## 3. Software untuk penelusuran jaringan
 
-To set `/sys/class/power_supply/BAT0/charge_control_end_threshold` to 75 when Proxmox VE starts up, I added the following entry to root's crontab:
+Ada banyak utilitas penelusuran berbeda yang tersedia, beberapa di antaranya mendukung metode penelusuran berbeda. Contoh program tersebut:
 
-```bash
-@reboot (sleep 60 && echo 75 | tee /sys/class/power_supply/BAT0/charge_control_end_threshold)
-```
+- traceroute
+- tracepath
+- mtr and mtr-gtk (console and graphical versions, respectively)
+- lft
+- tcptraceroute
 
-I still need to tests to make sure that everything is working properly.
+Anda juga dapat menentukan node rute paket menggunakan Nmap (beberapa cara) dan bahkan menggunakan ping !
 
-### Next Steps
+Pada artikel ini saya akan mengulas semua program yang tercantum di atas. Mari kita mulai dengan traceroute , karena ia mengimplementasikan sebagian besar metode pemindaian.
 
-Although I would love to be able to get both the 2016 and 2019 MacBook Pro laptops up and running with Proxmox VE, I have run out of spare time to troubleshoot the 2019 MBP. Since I have a spare USB hub with an integrated Gigabit Ethernet controller, I don't have to take it offline in order to work on the 2019 MBP. I'll publish an update if I am able to resolve the network interface issues when Proxmox VE boots up.
-
-I am also entertaining the idea of installing [AlmaLinux](https://almalinux.org/) or [Rocky Linux](https://rockylinux.org/) on the 2019 MBP to see how usable it would be with the [Cockpit](https://cockpit-project.org/) web-based management interface. And, if I'm really feeling a little spicy, I might give [Arch Linux](https://archlinux.org/) or the new Arch-based hotness, [CachyOS](https://cachyos.org/), a try.
-
-As for the 2016 MBP, I would like get a USB 2.5 Gigabit Ethernet controller that is well supported on Linux and either a USB 3.0 or a Thunderbolt 3 enclosure for an M.2 NVMe SSD. I have a spare 2 TB WD Black M.2 NVMe drive that I want to use as storage for virtual machines and containers. This will reduce the number of write cycles on the internal, soldered-on SSD storage. What will probably be the limiting factor for the 2016 MBP is the sixth-gen Core i7 processor along with the MBP's constrained thermal design. I'm just glad that the laptop isn't just collecting dust and, hopefully, extend its useful lifespan.
-
-### Additional Information
-
-If you are interested in seeing what PCI and USB devices show up under Proxmox VE, I have posted the output of `lspci` and `lsusb` for both MacBook Pro laptops. Both laptops had a different Anker USB hub connected in order to have a network connection.
-
-- 2016 MacBook Pro (MacBookPro13,3)
-  - [lspci](/assets/text/mbp-proxmox/2016-mbp-lspci.txt)
-  - [lsusb](/assets/text/mbp-proxmox/2016-mbp-lsusb.txt)
-- 2019 MacBook Pro (MacBookPro16,1)
-  - [lspci](/assets/text/mbp-proxmox/2019-mbp-lspci.txt)
-  - [lsusb](/assets/text/mbp-proxmox/2019-mbp-lsusb.txt)
