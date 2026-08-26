@@ -134,6 +134,97 @@ Paket probe adalah datagram UDP dengan port tujuan yang disebut "tidak mungkin".
 
 Metode ini dapat dilakukan oleh pengguna yang tidak memiliki hak istimewa.
 
+##### a.2. icmp
+Ini adalah metode yang paling umum, menggunakan paket icmp echo sebagai probe. Jika Anda dapat melakukan ping ke host tujuan, maka penelusuran icmp juga dapat diterapkan. Untuk memilih metode ini, gunakan opsi -M icmp atau versi singkatnya -I .
+
+Metode ini diperbolehkan untuk pengguna yang tidak memiliki hak istimewa.
+
+Metode ini memiliki dua opsi spesifik:
+
+##### a.2.1. raw
+Gunakan hanya soket raw (metode tradisional). Secara default, metode ini dicoba terlebih dahulu (untuk alasan kompatibilitas), kemudian soket dgram icmp baru dicoba sebagai cadangan.
+
+##### a.2.2. dgram
+Gunakan hanya soket dgram icmp.
+
+##### a.3. TCP
+Metode modern terkenal yang dirancang untuk melewati firewall. Untuk menggunakannya, tentukan opsi -M tcp atau opsi singkat -T . Menggunakan port tujuan tetap (defaultnya adalah 80, http).
+
+Jika ada filter pada jalur pelacakan jaringan, kemungkinan besar port udp yang "tidak biasa" (seperti yang digunakan oleh metode default) atau bahkan icmp echo (seperti untuk icmp) difilter, dan seluruh proses penelusuran akan difilter. berhenti di firewall seperti itu. Untuk melewati filter jaringan, kita hanya perlu menggunakan kombinasi pasangan protokol/port yang diizinkan. Jika kita melakukan penelusuran ke, katakanlah, server email, kemungkinan besar kita dapat menjangkaunya dengan -T -p 25 , meskipun kita tidak dapat menjangkaunya dengan -I .
+
+Metode ini menggunakan “teknik koneksi setengah terbuka” yang terkenal, yang menyebabkan aplikasi di komputer tujuan tidak melihat paket probe kami sama sekali. Biasanya dikirim melalui tcp syn. Untuk port yang tidak mendengarkan, kami mendapat respons reset tcp dan selesai. Untuk port yang mendengarkan secara aktif, kita menerima tcp syn+ack, namun menanggapinya dengan tcp reset (bukannya tcp ack yang diharapkan), sehingga sesi tcp jarak jauh direset, dan aplikasi yang mendengarkan pada port tersebut bahkan tidak menerima pemberitahuan.
+
+Ada beberapa opsi untuk metode tcp:
+
+##### a.3.1. syn,ack,fin,rst,psh,urg,ece,cwr
+Menetapkan tanda TCP tertentu untuk paket probing, kombinasi apa pun darinya dapat digunakan.
+
+##### a.3.2. flags=NUMBER
+Menyetel bidang flags di header tcp ke nomor yang tepat.
+
+##### a.3.3. ecn
+Mengirimkan paket syn dengan flag tcp ECE dan CWR (untuk Pemberitahuan Kemacetan Eksplisit, rfc3168).
+
+a.3.4. sack,timestamps,window_scaling
+Menggunakan opsi header tcp yang sesuai dalam paket probing keluar.
+
+##### a.3.5. sysctl
+Menggunakan pengaturan sysctl saat ini (/proc/sys/net/*) untuk opsi header tcp untuk opsi di atas dan ecn. Selalu disetel ke default jika tidak ada yang ditentukan.
+
+##### a.3.6. mss=NUMBER
+Gunakan NUM untuk opsi header maxseg tcp (saat sinkronisasi).
+
+##### a.3.7. info
+Cetak tanda tcp dari respons tcp akhir ketika host target tercapai. Membantu menentukan apakah suatu aplikasi mendengarkan pada suatu port dan hal berguna lainnya. 
+
+Opsi defaultnya adalah syn,sysctl.
+
+##### a.4. tcpconn
+Implementasi awal metode tcp hanya menggunakan panggilan connect(2), yang membuka sesi tcp penuh. Tidak disarankan untuk penggunaan normal karena selalu mempengaruhi aplikasi yang mendengarkan pada port pada host tujuan.
+
+Untuk mengaktifkan metode ini, gunakan opsi -M tcpconn.
+
+##### a.5. udp
+Menggunakan datagram udp dengan port tujuan tetap (default 53, dns). Juga dirancang untuk melewati firewall. Untuk menggunakan metode penelusuran ini, tentukan opsi -M udp atau pintasan -U .
+
+Perhatikan bahwa tidak seperti metode tcp, aplikasi terkait pada host tujuan selalu menerima probe kami (dengan data acak) yang dapat membingungkannya. Dalam kebanyakan kasus, ia tidak akan merespons paket kami, jadi kami tidak akan pernah melihat hop (node) terakhir di jalur traceroute. (Untungnya, tampaknya setidaknya server DNS mengirimkan semacam respons).
+
+Cara ini tidak memerlukan hak yang lebih tinggi.
+
+##### a.6. udplite
+Menggunakan probe datagram udplite (dengan port tujuan tetap, default 53). Untuk mengaktifkan metode ini, tentukan opsi -M udplite atau -UL .
+
+Cara ini tidak memerlukan hak yang lebih tinggi.
+
+Pilihan:
+
+coverage=NUMBER
+Menyetel cakupan pengiriman udplite ke NUM .
+
+##### a.7. dccp
+Menggunakan paket Permintaan DCCP (rfc4340) untuk probe. Metode ini dapat diaktifkan dengan opsi -M dccp atau -D .
+
+Metode ini menggunakan "teknik koneksi setengah terbuka" yang sama yang digunakan untuk TCP. Port tujuan defaultnya adalah 33434.
+
+Pilihan:
+
+service=NUMBER
+Menyetel kode layanan DCCP ke NUMBER (defaultnya adalah 1885957735).
+
+##### a.8. raw
+Metode ini mengirimkan paket mentah dari protokol yang ditentukan. Untuk memanggil metode ini, gunakan opsi -M raw atau -P PROTOCOL .
+
+Tidak ada header khusus protokol transport yang digunakan, hanya header protokol IP.
+
+Menyiratkan -N 1 -w 5 .
+
+Pilihan:
+
+protocol=PROTOCOL
+
+Gunakan PROTOKOL IP (default 253).
+
+
 
 
 
