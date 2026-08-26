@@ -335,7 +335,36 @@ Anda dapat mengubah port tujuan menggunakan opsi:
 -p PORT, --port=port
 ```
 
+Contohnya penggunaaan scriptnya dapat anda lihat di bawah ini
 
+```bash
+root@ns1:~# traceroute -p 443 unixbsdshell.site
+traceroute to unixbsdshell.site (2001:470:36:61c:4000::2005), 30 hops max, 80 byte packets
+ 1  * ns1.unixbsdshell.site (2001:470:36:61c:4000::2005)  0.032 ms  0.021 ms
+root@ns1:~#
+```
+
+Untuk penelusuran UDP, port yang ditentukan akan digunakan sebagai port dasar (nomor port tujuan akan bertambah untuk setiap probe). Untuk jejak ICMP, nomor yang ditentukan akan digunakan sebagai nilai rangkaian ICMP awal (juga bertambah untuk setiap probe).
+
+Untuk TCP dan lainnya, port yang ditentukan akan digunakan sebagai port tujuan permanen untuk terhubung. Biasanya ini tidak diperlukan, tetapi Anda juga dapat menentukan port sumber, ini dilakukan dengan opsi:
+
+```bash
+$ --sport=port
+```
+
+Opsi ini menyiratkan `-N 1 -w 5`. Biasanya, port sumber (jika berlaku untuk metode penelusuran yang dipilih) dipilih oleh sistem.
+
+## 7. Bagaimana memulai penelusuran dari node tertentu. Cara mengurangi atau menambah jumlah node yang akan dilacak
+
+Dengan menggunakan opsi `-f`, Anda dapat menentukan nomor simpul untuk memulai penelusuran. Nilai defaultnya adalah 1.
+
+Dengan menggunakan opsi `-m`, Anda dapat menentukan jumlah hop maksimum untuk penelusuran; secara default diatur ke 30.
+
+## 8. Memilih antarmuka untuk penelusuran
+
+Secara default, paket dikirim dari antarmuka yang rute defaultnya dikonfigurasi. Namun dengan opsi berikut Anda dapat membuat traceroute mengirim paket dari antarmuka yang ditentukan pada baris perintah:
+
+$ -i INTERFACE, --interface=INTERFACE
 
 
 
