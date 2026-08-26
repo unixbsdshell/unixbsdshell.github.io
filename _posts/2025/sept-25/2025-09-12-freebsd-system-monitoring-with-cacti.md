@@ -119,4 +119,13 @@ Untuk mulai melacak, cukup tentukan IP atau situs yang ingin Anda lacak rutenya:
 $ traceroute 36.90.8.64
 ```
 
+Jika Anda tertarik pada node terdekat (jaringan lokal, misalnya), maka Anda dapat memilih situs mana pun sebagai tujuan akhir.
+
+#### a. Metode penelusuran di traceroute
+
+Dalam lingkungan jaringan saat ini, metode penelusuran tradisional tidak selalu dapat diterapkan karena meluasnya penggunaan firewall. Firewall semacam itu memfilter port UDP yang “tidak mungkin” atau bahkan paket gema ICMP. Untuk mengatasi masalah ini, beberapa metode penelusuran jaringan tambahan (termasuk tcp) telah diterapkan. Metode ini mencoba menggunakan protokol dan port sumber/tujuan yang berbeda untuk melewati firewall (sehingga firewall menganggapnya hanya sebagai permulaan sesi jaringan dari jenis yang diizinkan).
+
+Metode yang berbeda memiliki opsi khusus, bergantung pada protokol yang digunakan. Opsi metode ini dapat ditentukan menggunakan opsi -O . Beberapa opsi dipisahkan dengan koma (atau gunakan beberapa -Os pada baris perintah ). Masing-masing metode mungkin mempunyai pilihan khususnya sendiri atau mungkin tidak ada sama sekali.
+
+
 
