@@ -225,11 +225,73 @@ protocol=PROTOCOL
 Gunakan PROTOKOL IP (default 253).
 
 ## 4. Cara mempercepat penelusuran. Cara menonaktifkan resolusi IP terbalik ke nama host saat menelusuri
-Prinsip cara kerja penelusuran dijelaskan tepat di atas - mengirimkan paket dengan masa pakai yang terus meningkat. Faktanya, semua paket (dengan TTL 1, dengan TTL 2, dengan TTL 3, dst) dapat dikirim secara bersamaan. Dan inilah yang terjadi - secara default, 16 paket dikirim sekaligus (jumlahnya dapat diubah dengan opsi -N ). Hal ini dilakukan untuk mempercepat penelusuran.
+Prinsip cara kerja penelusuran dijelaskan tepat di atas - mengirimkan paket dengan masa pakai yang terus meningkat. Faktanya, semua paket (dengan TTL 1, dengan TTL 2, dengan TTL 3, dst) dapat dikirim secara bersamaan. Dan inilah yang terjadi - secara default, 16 paket dikirim sekaligus (jumlahnya dapat diubah dengan opsi `-N` ). Hal ini dilakukan untuk mempercepat penelusuran.
 
 Oleh karena itu, tracing sebenarnya sangat cepat. 1-2 detik yang menurut kami untuk menentukan node jaringan sebenarnya dihabiskan untuk mendapatkan nama host untuk IP. Ini dapat dinonaktifkan menggunakan opsi `-n`.
 
-Dengan menggunakan program waktu , Anda dapat mengukur waktu eksekusi suatu program dengan dan tanpa opsi -n :
+Dengan menggunakan program waktu , Anda dapat mengukur waktu eksekusi suatu program dengan dan tanpa opsi `-n`:
+
+```bash
+root@ns1:~# time traceroute -n google.com
+traceroute to google.com (2404:6800:4003:c11::8a), 30 hops max, 80 byte packets
+ 1  2001:470:36:61c:4000::1  0.692 ms  0.651 ms  0.615 ms
+ 2  2001:470:35:61c::1  20.170 ms  22.195 ms  24.166 ms
+ 3  * * *
+ 4  2404:6800:834a:340::1  38.125 ms 2404:6800:8341::1  38.159 ms  38.806 ms
+ 5  2404:6800:8341:80::1  39.740 ms 2404:6800:834a:280::1  39.272 ms 2404:6800:8341::1  39.286 ms
+ 6  2001:4860:0:1::6964  39.194 ms 2001:4860:0:1::322  40.784 ms 2001:4860:0:1::45a  39.725 ms
+ 7  2001:4860:0:1::9b3a  39.998 ms 2001:4860:0:1::560c  37.542 ms 2001:4860:0:1::7e96  48.404 ms
+ 8  2001:4860::c:4003:1cb9  36.134 ms 2001:4860::c:4003:1c92  31.446 ms 2001:4860::c:4003:1caf  31.860 ms
+ 9  2001:4860:0:1::534a  32.283 ms 2001:4860::cc:4004:b25d  31.315 ms  31.096 ms
+10  2001:4860:0:1::5377  30.867 ms * 2001:4860:0:1::53b1  30.858 ms
+11  * * *
+12  * * *
+13  * * *
+14  * * *
+15  * * *
+16  * * *
+17  * * *
+18  * * *
+19  2404:6800:4003:c11::8a  19.158 ms *  19.138 ms
+
+real    0m5.781s
+user    0m0.000s
+sys     0m0.011s
+root@ns1:~#
+```
+<br/>
+
+```bash
+root@ns1:~# time traceroute google.com
+traceroute to google.com (2404:6800:4003:c11::64), 30 hops max, 80 byte packets
+ 1  dns1.unixbsdshell.site (2001:470:36:61c:4000::1)  0.860 ms  0.809 ms  0.768 ms
+ 2  tunnel1029870.tunnel.tserv25.sin1.ipv6.he.net (2001:470:35:61c::1)  17.985 ms  20.867 ms  22.559 ms
+ 3  * * *
+ 4  * 2404:6800:8341:40::1 (2404:6800:8341:40::1)  29.399 ms 2404:6800:8341::1 (2404:6800:8341::1)  29.671 ms
+ 5  2404:6800:834a:280::1 (2404:6800:834a:280::1)  29.000 ms 2404:6800:834a:340::1 (2404:6800:834a:340::1)  29.427 ms  29.424 ms
+ 6  2001:4860:0:1::77bc (2001:4860:0:1::77bc)  30.273 ms 2001:4860:0:1::2aa2 (2001:4860:0:1::2aa2)  23.257 ms 2001:4860:0:1::322 (2001:4860:0:1::322)  21.937 ms
+ 7  2001:4860:0:1::f6 (2001:4860:0:1::f6)  22.299 ms  72.963 ms 2001:4860:0:1::7e96 (2001:4860:0:1::7e96)  71.720 ms
+ 8  2001:4860::c:4003:1cb8 (2001:4860::c:4003:1cb8)  73.311 ms  71.914 ms 2001:4860::c:4003:1cb9 (2001:4860::c:4003:1cb9)  72.881 ms
+ 9  2001:4860::cc:4004:b25a (2001:4860::cc:4004:b25a)  73.294 ms 2001:4860:0:1::53b0 (2001:4860:0:1::53b0)  73.416 ms 2001:4860:0:1::5376 (2001:4860:0:1::5376)  73.841 ms
+10  2001:4860:0:1::534b (2001:4860:0:1::534b)  73.650 ms 2001:4860:0:1::53b5 (2001:4860:0:1::53b5)  53.295 ms  53.500 ms
+11  * * *
+12  * * *
+13  * * *
+14  * * *
+15  * * *
+16  * * *
+17  * * *
+18  * * *
+19  se-in-f100.1e100.net (2404:6800:4003:c11::64)  17.208 ms  17.251 ms  19.628 ms
+
+real    0m10.296s
+user    0m0.000s
+sys     0m0.017s
+root@ns1:~#
+```
+
+
+
 
 
 
