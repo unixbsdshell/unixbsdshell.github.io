@@ -364,7 +364,79 @@ Dengan menggunakan opsi `-m`, Anda dapat menentukan jumlah hop maksimum untuk pe
 
 Secara default, paket dikirim dari antarmuka yang rute defaultnya dikonfigurasi. Namun dengan opsi berikut Anda dapat membuat traceroute mengirim paket dari antarmuka yang ditentukan pada baris perintah:
 
+```bash
 $ -i INTERFACE, --interface=INTERFACE
+```
+
+Contoh penggunaan scriptnya dapat anda lihat pada contoh di bawah ini.
+
+```bash
+root@ns1:~# traceroute -i enp3s0 google.com
+traceroute to google.com (2404:6800:4003:c11::71), 30 hops max, 80 byte packets
+ 1  dns1.unixbsdshell.site (2001:470:36:61c:4000::1)  0.965 ms  0.864 ms  0.778 ms
+ 2  tunnel1029870.tunnel.tserv25.sin1.ipv6.he.net (2001:470:35:61c::1)  30.538 ms  33.096 ms  34.696 ms
+ 3  * * *
+ 4  2404:6800:8341:c0::1 (2404:6800:8341:c0::1)  53.959 ms 2404:6800:834a:340::1 (2404:6800:834a:340::1)  54.294 ms 2404:6800:8341:40::1 (2404:6800:8341:40::1)  54.591 ms
+ 5  2404:6800:834a:300::1 (2404:6800:834a:300::1)  54.663 ms 2404:6800:834a:280::1 (2404:6800:834a:280::1)  55.094 ms 2404:6800:8341:40::1 (2404:6800:8341:40::1)  55.089 ms
+ 6  2001:4860:0:1::2260 (2001:4860:0:1::2260)  56.940 ms 2001:4860:0:1::1f90 (2001:4860:0:1::1f90)  39.379 ms 2001:4860:0:1::77ba (2001:4860:0:1::77ba)  39.053 ms
+ 7  2001:4860:0:1::9b38 (2001:4860:0:1::9b38)  39.099 ms 2001:4860:0:1::560c (2001:4860:0:1::560c)  61.137 ms  61.144 ms
+ 8  2001:4860::c:4003:1cb9 (2001:4860::c:4003:1cb9)  61.315 ms 2001:4860::c:4003:1cba (2001:4860::c:4003:1cba)  61.800 ms 2001:4860::c:4003:1cb0 (2001:4860::c:4003:1cb0)  61.309 ms
+ 9  2001:4860:0:1::5350 (2001:4860:0:1::5350)  72.309 ms 2001:4860::cc:4004:b25d (2001:4860::cc:4004:b25d)  61.930 ms 2001:4860:0:1::53b2 (2001:4860:0:1::53b2)  62.674 ms
+10  * 2001:4860:0:1::53ad (2001:4860:0:1::53ad)  61.432 ms *
+11  * * *
+12  * * *
+13  * * *
+14  * * *
+15  * * *
+16  * * *
+17  * * *
+18  * * *
+19  * * *
+20  se-in-f113.1e100.net (2404:6800:4003:c11::71)  26.105 ms  26.471 ms  26.538 ms
+root@ns1:~#
+```
+Dimana `enp3s0` adalah interface atau Lancard yang ada dikomputer kami.
+
+## 9. Cara menunjukkan sistem otonom mana yang dimiliki suatu node saat menelusuri
+
+Setiap alamat IP dikaitkan dengan Sistem Otonom (AS) . Dengan opsi -A Anda dapat mengaktifkan permintaan nomor AS untuk setiap node di sepanjang jalur pelacakan, misalnya:
+
+```bash
+root@ns1:~# traceroute -A -n unixwinbsd.site
+traceroute to unixwinbsd.site (64.190.63.222), 30 hops max, 60 byte packets
+ 1  192.168.17.1 [*]  0.647 ms  0.609 ms  0.581 ms
+ 2  192.168.1.1 [*]  1132.205 ms  1132.185 ms  1132.161 ms
+ 3  36.70.96.1 [AS7713]  2.903 ms  3.167 ms  4.151 ms
+ 4  180.252.2.141 [AS7713]  3.638 ms  4.218 ms  4.178 ms
+ 5  180.240.190.77 [AS7713]  16.841 ms  17.099 ms  27.614 ms
+ 6  180.240.190.77 [AS7713]  17.344 ms  14.573 ms  14.650 ms
+ 7  180.240.192.233 [AS7713]  187.672 ms  170.452 ms  170.711 ms
+ 8  180.240.196.1 [AS7713]  187.014 ms  167.353 ms  183.628 ms
+ 9  193.239.116.37 [AS0]  195.771 ms  205.464 ms  212.379 ms
+10  212.227.117.142 [AS8560]  190.671 ms  190.680 ms  206.768 ms
+11  212.227.117.118 [AS8560]  193.994 ms  209.868 ms  209.051 ms
+12  * * *
+13  * * *
+14  * * *
+15  * * *
+16  * * *
+17  * * *
+18  * * *
+19  * * *
+20  * * *
+21  * * *
+22  * * *
+23  * * *
+24  * * *
+25  * * *
+26  * * *
+27  * * *
+28  * * *
+29  * * *
+30  * * *
+root@ns1:~#
+```
+
 
 
 
