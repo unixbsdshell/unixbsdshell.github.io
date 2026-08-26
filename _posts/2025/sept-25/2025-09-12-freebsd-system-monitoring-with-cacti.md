@@ -216,13 +216,21 @@ Metode ini mengirimkan paket mentah dari protokol yang ditentukan. Untuk memangg
 
 Tidak ada header khusus protokol transport yang digunakan, hanya header protokol IP.
 
-Menyiratkan -N 1 -w 5 .
+Menyiratkan `-N 1 -w 5`.
 
 Pilihan:
 
 protocol=PROTOCOL
 
 Gunakan PROTOKOL IP (default 253).
+
+## 4. Cara mempercepat penelusuran. Cara menonaktifkan resolusi IP terbalik ke nama host saat menelusuri
+Prinsip cara kerja penelusuran dijelaskan tepat di atas - mengirimkan paket dengan masa pakai yang terus meningkat. Faktanya, semua paket (dengan TTL 1, dengan TTL 2, dengan TTL 3, dst) dapat dikirim secara bersamaan. Dan inilah yang terjadi - secara default, 16 paket dikirim sekaligus (jumlahnya dapat diubah dengan opsi -N ). Hal ini dilakukan untuk mempercepat penelusuran.
+
+Oleh karena itu, tracing sebenarnya sangat cepat. 1-2 detik yang menurut kami untuk menentukan node jaringan sebenarnya dihabiskan untuk mendapatkan nama host untuk IP. Ini dapat dinonaktifkan menggunakan opsi `-n`.
+
+Dengan menggunakan program waktu , Anda dapat mengukur waktu eksekusi suatu program dengan dan tanpa opsi -n :
+
 
 
 
