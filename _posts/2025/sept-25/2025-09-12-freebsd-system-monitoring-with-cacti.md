@@ -560,7 +560,8 @@ Program tcptraceroute hanya menggunakan paket dari satu protokol TCP. Anda dapat
 
 
 ## 14. Pelacakan Jaringan di Nmap
-Nmap mempunyai pilihan --traceroute untuk tracing , contoh tracing ke website unixwinbsd.site.
+
+Nmap mempunyai pilihan `--traceroute` untuk tracing, contoh tracing ke website unixwinbsd.site.
 
 ```bash
 $ sudo nmap --traceroute unixwinbsd.site
@@ -568,7 +569,6 @@ $ sudo nmap --traceroute unixwinbsd.site
 
 Jika Anda tidak ingin memindai port, tetapi hanya ingin melakukan penelusuran, tambahkan opsi -sn.
 
-Nmap mempunyai pilihan --traceroute untuk tracing , contoh tracing ke website unixwinbsd.site.
 
 ```bash
 $ sudo nmap --traceroute -sn unixwinbsd.site
@@ -620,7 +620,7 @@ RCVD (1.1526s) ICMP [185.117.153.79 > 192.168.1.57 Echo reply (type=0/code=0) id
 
 ## 15. Menelusuri jaringan dengan perintah ping
 
-Program ping juga dapat merekam rute; untuk melakukan ini, Anda perlu menjalankan program dengan opsi -R . Ia menambahkan opsi RECORD_ROUTE ke paket ECHO_REQUEST dan menampilkan buffer rute dari paket yang dikembalikan. Ini adalah opsi yang sama yang digunakan Nmap. Batasannya sama: maksimal 9 slot, banyak host mengabaikan atau membuang opsi ini.
+Program ping juga dapat merekam rute; untuk melakukan ini, Anda perlu menjalankan program dengan opsi `-R`. Ia menambahkan opsi RECORD_ROUTE ke paket ECHO_REQUEST dan menampilkan buffer rute dari paket yang dikembalikan. Ini adalah opsi yang sama yang digunakan Nmap. Batasannya sama: maksimal 9 slot, banyak host mengabaikan atau membuang opsi ini.
 
 Contoh penggunaan:
 
@@ -633,7 +633,7 @@ Rute IP ditampilkan dengan setiap ping. Jika rute tidak berubah, maka akan ditam
 Terlepas dari semua keterbatasan opsi RECORD_ROUTE, terkadang ini adalah satu-satunya pilihan untuk mendapatkan setidaknya beberapa informasi tentang rute, karena perintah ping hampir selalu ada dan tidak memerlukan hak istimewa yang lebih tinggi untuk menjalankannya.
 
 ## 16. Menelusuri jaringan melalui Windows tracert
-Windows memiliki perintah tracert bawaan untuk penelusuran jaringan . Ia hampir tidak punya pilihan. Untuk menjalankan perintah, cukup tentukan nama host jarak jauh:
+Windows memiliki perintah tracert bawaan untuk penelusuran jaringan. Ia hampir tidak punya pilihan. Untuk menjalankan perintah, cukup tentukan nama host jarak jauh:
 
 ```bash
 $ tracert unixwinbsd.site
@@ -644,3 +644,4 @@ Jika fungsi ini tidak cukup bagi Anda, Anda dapat menginstal Nmap di Windows.
 Penelusuran dapat berguna untuk memahami struktur jaringan (misalnya, jaringan penyedia layanan Internet Anda), dan juga untuk memecahkan masalah transmisi data (misalnya, mengidentifikasi simpul yang tidak dilewati paket).
 
 Fungsionalitas terkaya untuk penelusuran jaringan adalah program traceroute . Program lain juga berisi opsi menarik atau dapat digunakan sebagai alternatif jika tidak ada program lain yang tersedia atau jika menjalankan traceroute sebagai root.
+
