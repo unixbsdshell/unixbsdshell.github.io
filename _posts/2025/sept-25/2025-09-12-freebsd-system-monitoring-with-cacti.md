@@ -13,7 +13,7 @@ Penelusuran dapat digunakan untuk mengidentifikasi masalah yang berkaitan dengan
 
 Paket jaringan yang diteruskan terdiri dari dua area, yaitu header dan data. Header berisi berbagai informasi, misalnya alamat IP titik pengiriman dan tujuan, port pengiriman dan tujuan, jenis paket, checksum paket, dll. Di antara bidang header, protokol IP memiliki bidang seperti time to live (TTL) atau masa pakai paket. Ini adalah counter dengan nomor yang berkurang satu setiap kali sebuah paket melewati node baru. Counter ini dibuat untuk memastikan bahwa paket yang bermasalah (misalnya jika terjadi kesalahan yang mengakibatkan rute loopback) tidak berjalan melalui jaringan tanpa henti. Artinya, setiap paket, setelah melewati sejumlah node tertentu, pada akhirnya akan mencapai tujuannya atau akan dibuang oleh salah satu node jaringan ketika “masa pakainya” berakhir.
 
-Ketika penghitung TTL menjadi nol, gateway berikutnya tidak meneruskan paket ini lagi. Namun pada saat yang sama, gateway mengirimkan respons *TIME_EXCEEDED* melalui protokol ICMP ke alamat IP asal paket dengan masa berlaku habis (masa pakai telah habis). Dan respons ini berisi alamat IP gateway tempat paket tersebut berakhir.
+Ketika penghitung TTL menjadi nol, gateway berikutnya tidak meneruskan paket ini lagi. Namun pada saat yang sama, gateway mengirimkan respons **TIME_EXCEEDED** melalui protokol ICMP ke alamat IP asal paket dengan masa berlaku habis (masa pakai telah habis). Dan respons ini berisi alamat IP gateway tempat paket tersebut berakhir.
 
 
 
