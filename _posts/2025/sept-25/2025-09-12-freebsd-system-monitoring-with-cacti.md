@@ -290,6 +290,51 @@ sys     0m0.017s
 root@ns1:~#
 ```
 
+Waktu eksekusi tracingnya sendiri adalah 0,206 detik, dan waktu tracing + penentuan nama host ternyata 2.360 detik, yaitu 10 kali lebih lama.
+
+## 5. Pelacakan IPv6
+
+Secara default, program menerima IP untuk host yang ditentukan untuk penelusuran dan, berdasarkan alamat IP yang diterima, secara otomatis menentukan protokol mana yang digunakan: IPv4 atau IPv6. Jika IP untuk kedua protokol diterima, maka IPv4 digunakan secara default.
+
+Menggunakan opsi -4 dan -6 Anda dapat secara eksplisit menentukan protokol yang diinginkan.
+
+Misalnya:
+
+```bash
+root@ns1:~# traceroute -6 -n google.com
+traceroute to google.com (2404:6800:4003:c11::71), 30 hops max, 80 byte packets
+ 1  2001:470:36:61c:4000::1  0.223 ms  0.215 ms  0.171 ms
+ 2  2001:470:35:61c::1  18.107 ms  19.887 ms  22.710 ms
+ 3  * * *
+ 4  2404:6800:8341:c0::1  29.826 ms * 2404:6800:8341:40::1  31.148 ms
+ 5  2404:6800:8341:40::1  31.104 ms  31.118 ms 2404:6800:834a:300::1  30.678 ms
+ 6  2001:4860:0:1::6962  31.554 ms 2001:4860:0:1::77bc  33.965 ms 2001:4860:0:1::1d96  33.822 ms
+ 7  2001:4860:0:1::9b36  31.399 ms 2001:4860:0:1::9b38  29.537 ms 2001:4860:0:1::560c  28.808 ms
+ 8  2001:4860::c:4003:1cb0  29.241 ms 2001:4860::c:4003:1cba  28.781 ms 2001:4860::c:4003:1c92  26.546 ms
+ 9  2001:4860:0:1::534a  26.719 ms 2001:4860:0:1::53b2  27.404 ms 2001:4860::cc:4004:b25a  26.741 ms
+10  2001:4860:0:1::5377  25.985 ms 2001:4860:0:1::534b  25.898 ms *
+11  * * *
+12  * * *
+13  * * *
+14  * * *
+15  * * *
+16  * * *
+17  * * *
+18  * * *
+19  * 2404:6800:4003:c11::71  41.536 ms  41.601 ms
+root@ns1:~#
+```
+
+Jaringan tempat pelacakan dibuat dengan opsi -6 harus mendukung IPv6, jika tidak, tidak akan ada yang berhasil.
+
+## 6. Mengubah port
+
+Anda dapat mengubah port tujuan menggunakan opsi:
+
+```bash
+-p PORT, --port=port
+```
+
 
 
 
