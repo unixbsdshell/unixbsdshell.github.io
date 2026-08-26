@@ -112,3 +112,11 @@ Anda juga dapat menentukan node rute paket menggunakan Nmap (beberapa cara) dan 
 
 Pada artikel ini saya akan mengulas semua program yang tercantum di atas. Mari kita mulai dengan traceroute , karena ia mengimplementasikan sebagian besar metode pemindaian.
 
+### A. Cara menggunakan traceroute
+Untuk mulai melacak, cukup tentukan IP atau situs yang ingin Anda lacak rutenya:
+
+```bash
+$ traceroute 36.90.8.64
+```
+
+
