@@ -15,6 +15,15 @@ Urutan pemuatan komponen adalah sebagai berikut:
 Buka [halaman resmi Microsoft](https://learn.microsoft.com/ru-ru/cpp/windows/latest-supported-vc-redist) dan pilih komponen yang ingin Anda unduh.
 Untuk Visual C++ 2015-2022, cukup unduh dan instal langsung file vc_redist.x86.exe dan vc_redist.x64.exe untuk sistem x64, opsi x86 saja untuk sistem 32-bit atau vc_redist.arm64.exe untuk perangkat dengan prosesor ARM.
 
-gambar Versi terbaru Microsoft Visual C++ Redistributable.
+<figure class="figure w-100">
+    <a target="_blank" href="https://raw.githubusercontent.com/unixbsdshell/unixbsdshell.github.io/refs/heads/main/img/ags-23/Versi%20terbaru%20Microsoft%20Visual%20C%20plus%20plus%20Redistributable.png">
+    <img src="https://raw.githubusercontent.com/unixbsdshell/unixbsdshell.github.io/refs/heads/main/img/ags-23/Versi%20terbaru%20Microsoft%20Visual%20C%20plus%20plus%20Redistributable.png" class="img-fluid border" alt="Versi terbaru Microsoft Visual C++ Redistributable">
+    </a>
+    <figcaption class="figure-caption text-center">
+        Versi terbaru Microsoft Visual C++ Redistributable Yang ada di situs Resmi Microsoft
+    </figcaption>
+</figure>
+
+
 
 
