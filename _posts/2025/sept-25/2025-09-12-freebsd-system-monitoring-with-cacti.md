@@ -125,7 +125,15 @@ Jika Anda tertarik pada node terdekat (jaringan lokal, misalnya), maka Anda dapa
 
 Dalam lingkungan jaringan saat ini, metode penelusuran tradisional tidak selalu dapat diterapkan karena meluasnya penggunaan firewall. Firewall semacam itu memfilter port UDP yang “tidak mungkin” atau bahkan paket gema ICMP. Untuk mengatasi masalah ini, beberapa metode penelusuran jaringan tambahan (termasuk tcp) telah diterapkan. Metode ini mencoba menggunakan protokol dan port sumber/tujuan yang berbeda untuk melewati firewall (sehingga firewall menganggapnya hanya sebagai permulaan sesi jaringan dari jenis yang diizinkan).
 
-Metode yang berbeda memiliki opsi khusus, bergantung pada protokol yang digunakan. Opsi metode ini dapat ditentukan menggunakan opsi -O . Beberapa opsi dipisahkan dengan koma (atau gunakan beberapa -Os pada baris perintah ). Masing-masing metode mungkin mempunyai pilihan khususnya sendiri atau mungkin tidak ada sama sekali.
+Metode yang berbeda memiliki opsi khusus, bergantung pada protokol yang digunakan. Opsi metode ini dapat ditentukan menggunakan opsi `-O`. Beberapa opsi dipisahkan dengan koma (atau gunakan beberapa `-Os` pada baris perintah ). Masing-masing metode mungkin mempunyai pilihan khususnya sendiri atau mungkin tidak ada sama sekali.
+
+##### a.1. default
+Metode default - digunakan jika tidak ada metode lain yang ditentukan, atau dapat ditentukan secara eksplisit dengan  opsi -M default . Ini adalah metode penelusuran rute yang tradisional dan kuno.
+
+Paket probe adalah datagram UDP dengan port tujuan yang disebut "tidak mungkin". Port probe "tidak mungkin" pertama adalah 33434, kemudian untuk setiap probe berikutnya bertambah satu. Karena port tersebut diperkirakan tidak digunakan, host tujuan biasanya akan mengembalikan respons akhir "icmp unreach port". Nomor port dapat diubah (lebih lanjut tentang ini di bawah).
+
+Metode ini dapat dilakukan oleh pengguna yang tidak memiliki hak istimewa.
+
 
 
 
