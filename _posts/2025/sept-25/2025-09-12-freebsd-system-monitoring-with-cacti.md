@@ -20,54 +20,16 @@ Jadi, inti dari pelacakan adalah bahwa satu paket dikirim dengan waktu hidup (TT
 Kita sudah mengetahui bahwa paket tersebut mati, dari kasus ini kita dapat mencari jawabannya pada alamat IP gateway tempat kemalangan ini terjadi pada paket tersebut. Kemudian sebuah paket dikirim dengan counter disetel ke 2 tetapi paket tetap akan melewati gateway pertama (kita sudah mengetahui IP-nya), tetapi kesialan (counter mencapai nol) sudah terjadi di gateway kedua. Pada kasus ini kita akan menerima respons ICMP dari IP gerbang ini. Kemudian paket berikutnya dikirim, dan seterusnya, hingga semua node dan host jaringan yang kita perlukan teridentifikasi.
 
 
-##2. Jenis penelusuran jaringan
+## 2. Jenis penelusuran jaringan
 
 Ada beberapa jenis penelusuran. Perbedaan utamanya terletak pada paket yang dikirim - dapat berupa paket protokol transport TCP atau UDP, atau paket Protokol Pesan Kontrol Internet ICMP, atau paket IP mentah.
 Terkadang, karena firewall atau konfigurasi node jaringan, alamat IP node tidak dapat diperoleh. Dalam hal ini, Anda dapat mencoba menggunakan metode lain yang mungkin membuahkan hasil.
 
 Hal ini dapat diilustrasikan dengan dua contoh traceroute berikut ke host yang sama:
 
-When I got to the Proxmox VE installer boot menu, I noticed that I couldn't use the laptop keyboard to change the menu selection and continnue booting. I pulled out a spare USB keyboard, plugged it into the USB hub and continued on with the text-based installer.
-
-Once in the installer, the internal storage device was detected and I was able to configure the network interface with a static IP address, then continued with the install. After rebooting the laptop and being greeted with the GRUB menu, I noticed that the laptop keyboard was working and successfully logged into the console. From my main laptop, I was able to get to the Proxmox VE web interface and didn't see any issues or errors appear in the logging panel.
-
-Before proceeding with the configuration and testing of Proxmox VE, I switched from the default Proxmox VE Enterprise repositories to the no-subscription repositories following the instructions provided by Proxmox's wiki page, "[Package Repositories](https://pve.proxmox.com/wiki/Package_Repositories)".
-
-By default, the laptop will go into sleep or suspend mode when I close the lid. To disable that behavior, I edited the `/etc/systemd/logind.conf` configuration file and set all three of the following configuration keys to `ignore`:
-
-- `HandleLidSwitch`
-- `HandleLidSwitchDocked`
-- `HandleLidSwitchExternalPower`
-
-After editing the file, I ran `systemd restart systemd-logind` for the changes to take effect. I ran a continuous ping on the laptop's IP address, closed the laptop's lid, and was still able to ping and connect to the laptop. Later on, I needed to restart the laptop after installing some updates, I noticed that the laptop seemed to shutdown rather than restarting. Knowing that MacBook Pros require having at least an external display connected to the laptop to operate in clamshell mode when using macOS, I plugged in a [fit-headless HDMI display emulator](https://edge.compulab.com/store/fit-headless/) to the USB hub, booted up the laptop, closed the lid and remotely restarted the laptop. Thankfully, the laptop restarted normally and I didn't have to manually boot the laptop up after each major update or system-wide configuration change.
-
-<div class="row">
-    <div class="col col-6">
-        <figure class="figure">
-            <a target="_blank" href="/assets/images/mbp-proxmox/2016-mbp-proxmox-debian-vm-fastfetch.png">
-            <img src="/assets/images/mbp-proxmox/2016-mbp-proxmox-debian-vm-fastfetch.png" class="img-fluid border" alt="Debian 13 virtual machine running under Proxmox VE 9 on a 2016 Apple MacBook Pro">
-            </a>
-            <figcaption class="figure-caption text-center">
-                Debian 13 Proxmox Virtual Machine Running on the 2016 MacBook Pro
-            </figcaption>
-        </figure>
-    </div>
-    <div class="col col-6">
-        <figure class="figure">
-            <a target="_blank" href="/assets/images/mbp-proxmox/2016-mbp-proxmox-grafana-cpu-temp.png">
-            <img src="/assets/images/mbp-proxmox/2016-mbp-proxmox-grafana-cpu-temp.png" class="img-fluid border" alt="Processor temperature charts for the 2016 Apple MacBook Pro from Grafana">
-            </a>
-            <figcaption class="figure-caption text-center">
-                Hardware Temperature Monitor Grafana Graph for the 2016 MacBook Pro
-            </figcaption>
-        </figure>
-    </div>
-</div>
-
-In order to reduce overall power consumption and temperatures, I used the "[Proxmox VE CPU Scaling Governor](https://community-scripts.github.io/ProxmoxVE/scripts?id=scaling-governor)" helper script to change the CPU scaling governor from `performance` to `powersave`. The script adds the following line to the root user's crontab that automatically sets the correct value on reboot.
 
 ```bash
-@reboot (sleep 60 && echo "powersave" | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor)
+traceroute unixwinbsd.site
 ```
 
 To set the scaling governor back to `performance` on each reboot, run `crontab -e` and change `powersave` to `performance`.
