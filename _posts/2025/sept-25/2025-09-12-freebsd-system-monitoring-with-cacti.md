@@ -11,30 +11,10 @@ Penelusuran dapat digunakan untuk mengidentifikasi masalah yang berkaitan dengan
 
 ## 1. Cara kerja penelusuran jaringan
 
-The [15-inch Late 2016 MacBook Pro](https://support.apple.com/en-us/111975) (identifiers: [MacBookPro13,3 / A1707](https://everymac.com/systems/apple/macbook_pro/specs/macbook-pro-core-i7-2.7-15-late-2016-retina-display-touch-bar-specs.html)) has a quad-core [Intel Core i7-6820HQ processor](https://www.intel.com/content/www/us/en/products/sku/88970/intel-core-i76820hq-processor-8m-cache-up-to-3-60-ghz/specifications.html), 16 GB of RAM, 1 TB of storage, a Radeon Pro 455 dedicated GPU, the infamous butterfly switch keyboard, and a Touch Bar. I previously used this laptop as my main laptop for development, editing photos and images, and other usual tasks before replacing it with the 2019 MBP.
+Paket jaringan yang diteruskan terdiri dari dua area, yaitu header dan data. Header berisi berbagai informasi, misalnya alamat IP titik pengiriman dan tujuan, port pengiriman dan tujuan, jenis paket, checksum paket, dll. Di antara bidang header, protokol IP memiliki bidang seperti time to live (TTL) atau masa pakai paket. Ini adalah counter dengan nomor yang berkurang satu setiap kali sebuah paket melewati node baru. Counter ini dibuat untuk memastikan bahwa paket yang bermasalah (misalnya jika terjadi kesalahan yang mengakibatkan rute loopback) tidak berjalan melalui jaringan tanpa henti. Artinya, setiap paket, setelah melewati sejumlah node tertentu, pada akhirnya akan mencapai tujuannya atau akan dibuang oleh salah satu node jaringan ketika “masa pakainya” berakhir.
 
-<div class="row">
-    <div class="col col-6">
-        <figure class="figure">
-            <a target="_blank" href="/assets/images/mbp-proxmox/2016-mbp-proxmox-summary.png">
-            <img src="/assets/images/mbp-proxmox/2016-mbp-proxmox-summary.png" class="img-fluid border" alt="Proxmox VE Host Summary Page for a 2016 Apple MacBook Pro">
-            </a>
-            <figcaption class="figure-caption text-center">
-                Proxmox VE Node Summary for a 2016 Apple MacBook Pro
-            </figcaption>
-        </figure>
-    </div>
-    <div class="col col-6">
-        <figure class="figure">
-            <a target="_blank" href="/assets/images/mbp-proxmox/2016-mbp-proxmox-fastfetch.png">
-            <img src="/assets/images/mbp-proxmox/2016-mbp-proxmox-fastfetch.png" class="img-fluid border" alt="Output of the fastfetch command running under Proxmox VE 9 on a 2016 Apple MacBook Pro">
-            </a>
-            <figcaption class="figure-caption text-center">
-                Obligatory fastfetch Output for the 2016 MacBook Pro
-            </figcaption>
-        </figure>
-    </div>
-</div>
+Ketika penghitung TTL menjadi nol, gateway berikutnya tidak meneruskan paket ini lagi. Namun pada saat yang sama, gateway mengirimkan respons `TIME_EXCEEDED` melalui protokol ICMP ke alamat IP asal paket dengan masa berlaku habis (masa pakai telah habis). Dan respons ini berisi alamat IP gateway tempat paket tersebut berakhir.
+
 
 Before I installed Proxmox VE on the laptop, I made sure that I backed up everything important from the laptop, shut down the laptop, plugged in an [IODD ST400](http://en.iodd.kr/wiki/index.php/Iodd-ST400) drive into an Anker PowerShare 6-in-1 USB Type-C hub (there is a [newer version of the hub](https://www.anker.com/products/a8365) that I don't have and have not tested with Linux) with a Gigabit Ethernet adapter and powered on the laptop while holding the `Option` key so I could boot off of the Proxmox VE 9 installer ISO mounted on the IODD drive. At the boot device selector, I selected the boot device labeled "GRUB" and pressed the `Enter` key to continue the boot process.
 
