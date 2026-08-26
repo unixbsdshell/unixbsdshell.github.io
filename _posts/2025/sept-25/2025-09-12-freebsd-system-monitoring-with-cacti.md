@@ -436,8 +436,99 @@ traceroute to unixwinbsd.site (64.190.63.222), 30 hops max, 60 byte packets
 30  * * *
 root@ns1:~#
 ```
+Seperti yang Anda lihat, sistem otonom tidak ditentukan untuk IP lokal 10.*.*.* - yang cukup logis, karena alamat ini tidak diberikan kepada siapa pun. Mengenai alamat 192.168.1.1 dan unit otonom AS198949, ini adalah semacam kesalahan.
 
+Seperti yang Anda lihat dari output perintah sebelumnya, empat node pertama memiliki alamat IP lokal. Node 5 hingga 9 milik sistem otonom AS38082/AS7470 yang sama. Dua node kedua dari belakang milik satu sistem otonom AS12389 dan dua node terakhir juga milik satu sistem otonom AS48666 - penyedia Internet yang menghosting situs unixwinbsd.site
 
+#### traceroute Options
+Perintah traceroute memiliki opsi lain yang mungkin berguna bagi Anda. Anda dapat menemukannya di halaman bantuan program ini:
+
+```bash
+$ man traceroute
+```
+
+## B. Cara menggunakan tracepath
+
+Program tracepath mirip dengan traceroute , tetapi hanya menggunakan satu teknik penelusuran: UDP, yang untuknya Anda dapat menentukan port khusus. Karena teknik yang dipilih, program ini tidak memerlukan hak istimewa yang lebih tinggi.
+
+Contoh penggunaan:
+
+```bash
+root@ns1:~# tracepath unixwinbsd.site
+1?: [LOCALHOST]                      pmtu 1500
+ 1:  _gateway                                              1.247ms 
+ 1:  _gateway                                              1.031ms 
+ 2:  10.20.48.1                                            9.097ms 
+ 3:  10.246.245.241                                       14.034ms 
+ 4:  10.185.252.194                                       14.379ms 
+ 5:  10.185.252.29                                        11.530ms asymm  4 
+ 6:  58-97-121-237.static.asianet.co.th                   13.849ms asymm  5 
+ 7:  171-102-247-184.static.asianet.co.th                 15.737ms asymm  6 
+ 8:  171-102-250-1.static.asianet.co.th                   64.185ms asymm  7 
+ 9:  171-102-254-232.static.asianet.co.th                 14.962ms asymm  8 
+10:  171-102-250-156.static.asianet.co.th                 13.509ms asymm  9 
+11:  122.155.226.89                                       18.793ms 
+12:  61.19.9.66                                           58.829ms 
+13:  no reply
+14:  87.226.181.87                                       399.972ms asymm 23 
+15:  81.177.108.86                                       263.969ms asymm 14 
+16:  j37-ae9-3001.marosnet.net                           307.140ms 
+17:  suip.biz                                            304.644ms reached
+     Resume: pmtu 1500 hops 17 back 17
+```
+
+Di kolom pertama, mungkin ada tanda tanya di sebelah nomor node - ini berarti nomor TTL tidak ada dalam respons yang dikirim dan program mencoba menebaknya. Alih-alih tanda bintang, jika IP tidak dikenali, tidak ada balasan yang ditulis .
+
+Kolom terakhir mungkin berisi angka dan kata asymm . Kata asymm berarti rutenya asimetris - yaitu, dari kita ke node ini paket melewati satu jalur, dan dari node ini ke kita paket melewati jalur yang berbeda. Angka tersebut berarti kemungkinan jumlah lompatan dari node ini ke kita - namun informasinya tidak dapat diandalkan.
+
+tracepath tidak memiliki banyak pilihan:
+
+- -4 : Gunakan IPv4 saja
+- -6 : Gunakan IPv6 saja
+- -N : Jangan cetak nama host, tetapi cetak nilai IP numerik.
+- -B : Cetak nama host dan alamat IP dalam bentuk digital.
+- -l : Tetapkan panjang paket awal, bukan 65535 untuk tracepath atau 128000 untuk tracepath6.
+- -M : Tetapkan jumlah hop maksimum (atau TTL maksimum) - yaitu, jumlah node "yang disadap" maksimum. Standarnya adalah 30.
+- -P : Tetapkan port tujuan awal.
+
+## C. Cara menggunakan mtr dan mtr-gtk (versi konsol dan grafis)
+
+Program mtr menggabungkan fungsionalitas program traceroute dan ping ke dalam satu alat diagnostik jaringan. Artinya, program ini menunjukkan rute ke node yang ditentukan dan terus melakukan ping ke setiap hop dan pada saat yang sama mengumpulkan statistik kerugian umum - berdasarkan data ini, Anda dapat menentukan node bermasalah di mana paket hilang.
+
+Contoh penggunaan:
+
+```bash
+root@mail:~ # mtr unixbsdshell.site
+                                                   My traceroute  [v0.96]
+mail.unixbsdshell.site (2001:470:36:61c:4000::2000) -> unixbsdshell.site (2001:470:36:61c:4000::20052026-08-26T13:40:47+0700
+Keys:  Help   Display mode   Restart statistics   Order of fields   quit
+                                                                                    Packets               Pings
+ Host                                                                             Loss%   Snt   Last   Avg  Best  Wrst StDev
+ 1. www.unixbsdshell.site                                                          0.0%    23    0.1   0.2   0.1   0.7   0.1
+
+```
+
+Program ini mendukung beberapa metode penelusuran dan juga mendukung format keluaran yang berbeda untuk menyimpan hasil, misalnya opsi `-C, --csv` untuk menyimpan hasil dalam format CSV (perhatikan bahwa pemisah sebenarnya bukanlah koma, melainkan titik koma), serta opsi `-j, --json` untuk menyimpan dalam format keluaran JSON.
+
+Menggunakan opsi `-n, --no-dns` Anda dapat menonaktifkan resolusi IP ke nama host. Dengan opsi `-b, --show-ips` Anda dapat mengaktifkan tampilan nama host dan alamat IP.
+
+Dengan opsi `-yn, --ipinfo` n Anda dapat mengkonfigurasi tampilan informasi tambahan tentang setiap IP hop. Untuk nilai `n` Anda perlu menentukan angka yang artinya:
+- 0 Show autonomous system (AS) number (equivalent to -z)
+- 1 Show IP prefix
+- 2 Show AS-based country code
+- 3 Show RIR (ripencc, arin, ...)
+- 4 Show IP prefix allocation date
+
+Bagi saya, untuk nilai `-y` apa pun, hanya nomor sistem otonom yang selalu ditampilkan. Untungnya, Anda dapat menelusuri berbagai tampilan menggunakan tombol `"y"`.
+
+- Opsi `-z, --aslookup` menampilkan nomor Sistem Otonom (AS) untuk setiap hop.
+- Opsi `-f` NUM digunakan untuk mengatur nomor TTL pertama. Defaultnya adalah 1.
+- Opsi `-m `menentukan jumlah maksimum hop (nilai waktu hidup maksimum) yang akan diproses selama penelusuran. Standarnya adalah 30.
+- Opsi `-U` NUM menetapkan jumlah maksimum host yang tidak diketahui. Standarnya adalah 5 . Rupanya, setelah mencapai nilai tersebut, penelusuran lebih lanjut akan dihentikan.
+- Dengan opsi `-u, --udp` adalah program akan menggunakan datagram UDP, bukan ICMP ECHO.
+- Dan dengan opsi `-T, --tcp` Anda dapat mengatur penggunaan paket TCP SYN alih-alih ICMP ECHO. PACKETSIZE diabaikan karena paket SYN tidak dapat memuat data.
+
+Dengan perintah mtr Anda bahkan dapat menggunakan protokol SCTP untuk penelusuran; untuk melakukan ini, tentukan opsi -S , --sctp dan paket Protokol Transmisi Kontrol Aliran akan digunakan sebagai pengganti ICMP ECHO.
 
 
 
