@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "Installing Proxmox VE 9 on Intel MacBook Pros"
+title:  "Cara Melakukan Pelacakan Rute Jaringan Dengan Baris Perintah"
 date:   2025-08-29 12:00:00 -0700
-tags:   laptops proxmox linux macbook-pro apple
+tags:   Shell
 ---
 
 Jejak rute paket ke host jaringan menunjukkan semua node perantara yang dilalui paket sebelum mencapai tujuan yang ditentukan. Artinya, dengan menggunakan tracing, Anda dapat mengetahui node mana, dengan alamat IP mana, suatu paket dikirimkan sebelum dikirimkan ke tujuannya.
