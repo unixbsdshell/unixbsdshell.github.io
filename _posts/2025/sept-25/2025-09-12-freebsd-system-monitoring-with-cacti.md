@@ -5,13 +5,11 @@ date:   2025-08-29 12:00:00 -0700
 tags:   laptops proxmox linux macbook-pro apple
 ---
 
-As I get a new laptop, I usually keep the old one around for a while and try to find a new use for them instead of selling or donating them. That is how I have two different MacBook Pro laptops that have been sitting around and collecting dust, including a 15-inch Late 2016 MacBook Pro (2016 MBP) and a 16-inch 2019 MacBook Pro (2019 MBP). Apple had stopped supporting the 2016 MBP when it came to new Mac OS X/macOS versions a couple of years ago and the 2019 MBP will get its last major macOS version when macOS 26 is released.
+Jejak rute paket ke host jaringan menunjukkan semua node perantara yang dilalui paket sebelum mencapai tujuan yang ditentukan. Artinya, dengan menggunakan tracing, Anda dapat mengetahui node mana, dengan alamat IP mana, suatu paket dikirimkan sebelum dikirimkan ke tujuannya.
 
-Over the past couple of months, I have been toying with installing a Linux distro on the 2016 MBP and actually got the just-released [Debian 13 (Trixie)](https://www.debian.org/News/2025/20250809) up and running on it ([Mastodon thread with progress and roadblocks](https://linh.social/@qlp/115074226275506158)). Unfortunately and as expected, not everything worked out of the box and there are things that I still have not been able to get working, including the Touch Bar and the Broadcom wireless controller. Both of those mean that using the laptop as a portable computer and use while roaming around wouldn't work out very well.
+Penelusuran dapat digunakan untuk mengidentifikasi masalah yang berkaitan dengan pengoperasian jaringan komputer, serta untuk penelitian jaringan (menentukan struktur jaringan, mencari node jaringan perantara, dan lain-lain).
 
-That's when I had the idea of turning the 2016 MBP (and the 2019 MBP) into a server, specifically, as a virtualization host using [Proxmox VE](https://www.proxmox.com/en/products/proxmox-virtual-environment/overview) 9.0. I'm already using Proxmox VE on a pair of desktop computers turned servers and I wanted a system to try out the new version. I've documented my experience with installing Proxmox VE on both MBP laptops and issues that I ran across in doing so.
-
-### Late 2016 MacBook Pro
+## 1. Cara kerja penelusuran jaringan
 
 The [15-inch Late 2016 MacBook Pro](https://support.apple.com/en-us/111975) (identifiers: [MacBookPro13,3 / A1707](https://everymac.com/systems/apple/macbook_pro/specs/macbook-pro-core-i7-2.7-15-late-2016-retina-display-touch-bar-specs.html)) has a quad-core [Intel Core i7-6820HQ processor](https://www.intel.com/content/www/us/en/products/sku/88970/intel-core-i76820hq-processor-8m-cache-up-to-3-60-ghz/specifications.html), 16 GB of RAM, 1 TB of storage, a Radeon Pro 455 dedicated GPU, the infamous butterfly switch keyboard, and a Touch Bar. I previously used this laptop as my main laptop for development, editing photos and images, and other usual tasks before replacing it with the 2019 MBP.
 
