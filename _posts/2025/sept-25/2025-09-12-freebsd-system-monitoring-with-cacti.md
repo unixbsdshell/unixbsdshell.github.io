@@ -15,9 +15,17 @@ Paket jaringan yang diteruskan terdiri dari dua area, yaitu header dan data. Hea
 
 Ketika penghitung TTL menjadi nol, gateway berikutnya tidak meneruskan paket ini lagi. Namun pada saat yang sama, gateway mengirimkan respons **TIME_EXCEEDED** melalui protokol ICMP ke alamat IP asal paket dengan masa berlaku habis (masa pakai telah habis). Dan respons ini berisi alamat IP gateway tempat paket tersebut berakhir.
 
+Jadi, inti dari pelacakan adalah bahwa satu paket dikirim dengan waktu hidup (TTL) diatur ke satu gateway pertama yang akan mengurangi nilainya satu, melihat bahwa penghitung menjadi nol, tidak mengirim paket ini ke mana pun, tetapi mengirimi kami respons bahwa paket "mati".
+
+Kita sudah mengetahui bahwa paket tersebut mati, dari kasus ini kita dapat mencari jawabannya pada alamat IP gateway tempat kemalangan ini terjadi pada paket tersebut. Kemudian sebuah paket dikirim dengan counter disetel ke 2 tetapi paket tetap akan melewati gateway pertama (kita sudah mengetahui IP-nya), tetapi kesialan (counter mencapai nol) sudah terjadi di gateway kedua. Pada kasus ini kita akan menerima respons ICMP dari IP gerbang ini. Kemudian paket berikutnya dikirim, dan seterusnya, hingga semua node dan host jaringan yang kita perlukan teridentifikasi.
 
 
-Before I installed Proxmox VE on the laptop, I made sure that I backed up everything important from the laptop, shut down the laptop, plugged in an [IODD ST400](http://en.iodd.kr/wiki/index.php/Iodd-ST400) drive into an Anker PowerShare 6-in-1 USB Type-C hub (there is a [newer version of the hub](https://www.anker.com/products/a8365) that I don't have and have not tested with Linux) with a Gigabit Ethernet adapter and powered on the laptop while holding the `Option` key so I could boot off of the Proxmox VE 9 installer ISO mounted on the IODD drive. At the boot device selector, I selected the boot device labeled "GRUB" and pressed the `Enter` key to continue the boot process.
+##2. Jenis penelusuran jaringan
+
+Ada beberapa jenis penelusuran. Perbedaan utamanya terletak pada paket yang dikirim - dapat berupa paket protokol transport TCP atau UDP, atau paket Protokol Pesan Kontrol Internet ICMP, atau paket IP mentah.
+Terkadang, karena firewall atau konfigurasi node jaringan, alamat IP node tidak dapat diperoleh. Dalam hal ini, Anda dapat mencoba menggunakan metode lain yang mungkin membuahkan hasil.
+
+Hal ini dapat diilustrasikan dengan dua contoh traceroute berikut ke host yang sama:
 
 When I got to the Proxmox VE installer boot menu, I noticed that I couldn't use the laptop keyboard to change the menu selection and continnue booting. I pulled out a spare USB keyboard, plugged it into the USB hub and continued on with the text-based installer.
 
