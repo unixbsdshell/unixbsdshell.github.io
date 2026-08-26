@@ -229,7 +229,7 @@ Prinsip cara kerja penelusuran dijelaskan tepat di atas - mengirimkan paket deng
 
 Oleh karena itu, tracing sebenarnya sangat cepat. 1-2 detik yang menurut kami untuk menentukan node jaringan sebenarnya dihabiskan untuk mendapatkan nama host untuk IP. Ini dapat dinonaktifkan menggunakan opsi `-n`.
 
-Dengan menggunakan program waktu , Anda dapat mengukur waktu eksekusi suatu program dengan dan tanpa opsi `-n`:
+Dengan menggunakan program waktu, Anda dapat mengukur waktu eksekusi suatu program dengan dan tanpa opsi `-n`:
 
 ```bash
 root@ns1:~# time traceroute -n google.com
