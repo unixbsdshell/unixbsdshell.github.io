@@ -530,8 +530,117 @@ Bagi saya, untuk nilai `-y` apa pun, hanya nomor sistem otonom yang selalu ditam
 
 Dengan perintah mtr Anda bahkan dapat menggunakan protokol SCTP untuk penelusuran; untuk melakukan ini, tentukan opsi -S , --sctp dan paket Protokol Transmisi Kontrol Aliran akan digunakan sebagai pengganti ICMP ECHO.
 
+```bash
+$ -P PORT, --port PORT
+Destination port number for TCP/SCTP/UDP traces.
+
+$ -L LOCAL_PORT, --localport LOCAL_PORT
+Source port number for UDP traces.
+```
+
+Perintah interaktif tersedia saat program sedang berjalan. Jika Anda menekan d , Anda dapat beralih di antara tampilan yang berbeda.
+
+Menggunakan tombol r Anda dapat mengatur ulang statistik.
+
+Anda dapat menggunakan tombol o untuk mengubah urutan kolom. Omong-omong, dengan opsi -o Anda dapat mengatur bidang mana yang ingin Anda tampilkan dan urutannya. Untuk detailnya lihat:
+
+```bash
+$ man mtr
+```
+
+## D. Cara menggunakan lft
+
+Program lft memiliki banyak opsi penelusuran dan dari uraiannya berikut ini bahwa program mencoba beberapa kombinasi dan secara otomatis memilih solusi terbaik. Sejujurnya, saya tidak memperhatikan hal ini: hasil dari mencoba berbagai metode penelusuran secara manual memungkinkan Anda memilih opsi terbaik.
+
+Program ini didokumentasikan dengan baik dan dapat digunakan sebagai alternatif traceroute jika diinginkan .
+
+## E. Cara menggunakan tcptraceroute
+
+Program tcptraceroute hanya menggunakan paket dari satu protokol TCP. Anda dapat menyetel tanda berbeda di header paket ini dengan opsi. Program traceroute juga memungkinkan Anda menyetel flag protokol TCP, dan terdapat lebih banyak opsi konfigurasi.
 
 
+## F. Pelacakan Jaringan di Nmap
+Nmap mempunyai pilihan --traceroute untuk tracing , contoh tracing ke website unixwinbsd.site.
 
+```bash
+$ sudo nmap --traceroute unixwinbsd.site
+```
 
+Jika Anda tidak ingin memindai port, tetapi hanya ingin melakukan penelusuran, tambahkan opsi -sn.
 
+Nmap mempunyai pilihan --traceroute untuk tracing , contoh tracing ke website unixwinbsd.site.
+
+```bash
+$ sudo nmap --traceroute -sn unixwinbsd.site
+```
+
+Ini akan mengurangi waktu hingga hasilnya ditampilkan secara signifikan. Kebetulan data yang dikeluarkan oleh nmap saat tracing belum selesai. Dalam hal ini, coba tambahkan opsi -PE tambahan.
+
+```bash
+$ sudo nmap --traceroute -sn -PE unixwinbsd.site
+```
+
+Di Nmap Anda dapat mengatur opsi di header paket protokol IP. Di antara pilihan tersebut ada satu yang menyimpan rute yang dilalui di header paket. Namun opsi ini memiliki sejumlah keterbatasan:
+
+- jumlah 9 slot
+- beberapa perangkat mengabaikan opsi ini
+- beberapa perangkat tidak mengizinkan paket melewatinya sama sekali dengan opsi ini diinstal
+
+Namun terkadang berhasil, contoh perintah:
+
+```bash
+$ sudo nmap -sn --ip-options "R" -n --packet-trace unixwinbsd.site
+```
+
+Hasil keluarannya akan tampak seperti ini.
+
+```bash
+Binary ip options to be send:
+\x01\x07\x27\x04\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00
+\x00\x00\x00\x00\x00\x00\x00\x00 
+Parsed ip options to be send:
+ NOP RR{#0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0}
+Starting Nmap 7.70 ( https://nmap.org ) at 2019-07-12 18:02 MSK
+SENT (0.8154s) ICMP [192.168.1.57 > 185.117.153.79 Echo request (type=8/code=0) id=64674 seq=0] IP [ttl=42 id=53218 iplen=68 ipopts={ NOP RR{#0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0}}]
+SENT (0.8154s) TCP 192.168.1.57:36579 > 185.117.153.79:443 S ttl=43 id=9871 iplen=84 ipopts={ NOP RR{#0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0}} seq=1013479372 win=1024 <mss 1460>
+SENT (0.8154s) TCP 192.168.1.57:36579 > 185.117.153.79:80 A ttl=41 id=45814 iplen=80 ipopts={ NOP RR{#0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0}} seq=0 win=1024 
+SENT (0.8155s) ICMP [192.168.1.57 > 185.117.153.79 Timestamp request (type=13/code=0) id=32210 seq=0 orig=0 recv=0 trans=0] IP [ttl=55 id=35087 iplen=80 ipopts={ NOP RR{#0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0}}]
+RCVD (1.1526s) ICMP [185.117.153.79 > 192.168.1.57 Echo reply (type=0/code=0) id=64674 seq=0] IP [ttl=48 id=44985 iplen=68 ipopts={ RR{ 10.246.245.242 10.185.252.193 10.185.252.29 10.185.0.12 171.102.250.3 171.102.250.128 203.144.128.48 203.144.144.8 103.3.177.50#} EOL}]
+Nmap scan report for suip.biz (185.117.153.79)
+Host is up (0.34s latency).
+Other addresses for suip.biz (not scanned): 2a02:f680:1:1100::3d5f
+```
+
+Anda perhatikan Perhatikan barisnya.
+
+```bash
+RCVD (1.1526s) ICMP [185.117.153.79 > 192.168.1.57 Echo reply (type=0/code=0) id=64674 seq=0] IP [ttl=48 id=44985 iplen=68 ipopts={ RR{ 10.246.245.242 10.185.252.193 10.185.252.29 10.185.0.12 171.102.250.3 171.102.250.128 203.144.128.48 203.144.144.8 103.3.177.50#} EOL}]
+```
+
+## G. Menelusuri jaringan dengan perintah ping
+
+Program ping juga dapat merekam rute; untuk melakukan ini, Anda perlu menjalankan program dengan opsi -R . Ia menambahkan opsi RECORD_ROUTE ke paket ECHO_REQUEST dan menampilkan buffer rute dari paket yang dikembalikan. Ini adalah opsi yang sama yang digunakan Nmap. Batasannya sama: maksimal 9 slot, banyak host mengabaikan atau membuang opsi ini.
+
+Contoh penggunaan:
+
+```bash
+$ ping -R unixwinbsd.site
+```
+
+Rute IP ditampilkan dengan setiap ping. Jika rute tidak berubah, maka akan ditampilkan pesan bahwa rute tidak berubah.
+
+Terlepas dari semua keterbatasan opsi RECORD_ROUTE, terkadang ini adalah satu-satunya pilihan untuk mendapatkan setidaknya beberapa informasi tentang rute, karena perintah ping hampir selalu ada dan tidak memerlukan hak istimewa yang lebih tinggi untuk menjalankannya.
+
+## H. Menelusuri jaringan melalui Windows tracert
+Windows memiliki perintah tracert bawaan untuk penelusuran jaringan . Ia hampir tidak punya pilihan. Untuk menjalankan perintah, cukup tentukan nama host jarak jauh:
+
+```bash
+$ tracert unixwinbsd.site
+```
+
+Jika fungsi ini tidak cukup bagi Anda, Anda dapat menginstal Nmap di Windows.
+
+Penelusuran dapat berguna untuk memahami struktur jaringan (misalnya, jaringan penyedia layanan Internet Anda), dan juga untuk memecahkan masalah transmisi data (misalnya, mengidentifikasi simpul yang tidak dilewati paket).
+
+Fungsionalitas terkaya untuk penelusuran jaringan adalah program traceroute . Program lain juga berisi opsi menarik atau dapat digunakan sebagai alternatif jika tidak ada program lain yang tersedia atau jika menjalankan traceroute sebagai root.
