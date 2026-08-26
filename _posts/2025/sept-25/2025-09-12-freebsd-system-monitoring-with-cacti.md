@@ -447,7 +447,7 @@ Perintah traceroute memiliki opsi lain yang mungkin berguna bagi Anda. Anda dapa
 $ man traceroute
 ```
 
-## B. Cara menggunakan tracepath
+## 10. Cara menggunakan tracepath
 
 Program tracepath mirip dengan traceroute , tetapi hanya menggunakan satu teknik penelusuran: UDP, yang untuknya Anda dapat menentukan port khusus. Karena teknik yang dipilih, program ini tidak memerlukan hak istimewa yang lebih tinggi.
 
@@ -491,7 +491,7 @@ tracepath tidak memiliki banyak pilihan:
 - -M : Tetapkan jumlah hop maksimum (atau TTL maksimum) - yaitu, jumlah node "yang disadap" maksimum. Standarnya adalah 30.
 - -P : Tetapkan port tujuan awal.
 
-## C. Cara menggunakan mtr dan mtr-gtk (versi konsol dan grafis)
+## 11. Cara menggunakan mtr dan mtr-gtk (versi konsol dan grafis)
 
 Program mtr menggabungkan fungsionalitas program traceroute dan ping ke dalam satu alat diagnostik jaringan. Artinya, program ini menunjukkan rute ke node yang ditentukan dan terus melakukan ping ke setiap hop dan pada saat yang sama mengumpulkan statistik kerugian umum - berdasarkan data ini, Anda dapat menentukan node bermasalah di mana paket hilang.
 
@@ -548,18 +548,18 @@ Anda dapat menggunakan tombol o untuk mengubah urutan kolom. Omong-omong, dengan
 $ man mtr
 ```
 
-## D. Cara menggunakan lft
+## 12. Cara menggunakan lft
 
 Program lft memiliki banyak opsi penelusuran dan dari uraiannya berikut ini bahwa program mencoba beberapa kombinasi dan secara otomatis memilih solusi terbaik. Sejujurnya, saya tidak memperhatikan hal ini: hasil dari mencoba berbagai metode penelusuran secara manual memungkinkan Anda memilih opsi terbaik.
 
 Program ini didokumentasikan dengan baik dan dapat digunakan sebagai alternatif traceroute jika diinginkan .
 
-## E. Cara menggunakan tcptraceroute
+## 13. Cara menggunakan tcptraceroute
 
 Program tcptraceroute hanya menggunakan paket dari satu protokol TCP. Anda dapat menyetel tanda berbeda di header paket ini dengan opsi. Program traceroute juga memungkinkan Anda menyetel flag protokol TCP, dan terdapat lebih banyak opsi konfigurasi.
 
 
-## F. Pelacakan Jaringan di Nmap
+## 14. Pelacakan Jaringan di Nmap
 Nmap mempunyai pilihan --traceroute untuk tracing , contoh tracing ke website unixwinbsd.site.
 
 ```bash
@@ -618,7 +618,7 @@ Anda perhatikan Perhatikan barisnya.
 RCVD (1.1526s) ICMP [185.117.153.79 > 192.168.1.57 Echo reply (type=0/code=0) id=64674 seq=0] IP [ttl=48 id=44985 iplen=68 ipopts={ RR{ 10.246.245.242 10.185.252.193 10.185.252.29 10.185.0.12 171.102.250.3 171.102.250.128 203.144.128.48 203.144.144.8 103.3.177.50#} EOL}]
 ```
 
-## G. Menelusuri jaringan dengan perintah ping
+## 15. Menelusuri jaringan dengan perintah ping
 
 Program ping juga dapat merekam rute; untuk melakukan ini, Anda perlu menjalankan program dengan opsi -R . Ia menambahkan opsi RECORD_ROUTE ke paket ECHO_REQUEST dan menampilkan buffer rute dari paket yang dikembalikan. Ini adalah opsi yang sama yang digunakan Nmap. Batasannya sama: maksimal 9 slot, banyak host mengabaikan atau membuang opsi ini.
 
@@ -632,7 +632,7 @@ Rute IP ditampilkan dengan setiap ping. Jika rute tidak berubah, maka akan ditam
 
 Terlepas dari semua keterbatasan opsi RECORD_ROUTE, terkadang ini adalah satu-satunya pilihan untuk mendapatkan setidaknya beberapa informasi tentang rute, karena perintah ping hampir selalu ada dan tidak memerlukan hak istimewa yang lebih tinggi untuk menjalankannya.
 
-## H. Menelusuri jaringan melalui Windows tracert
+## 16. Menelusuri jaringan melalui Windows tracert
 Windows memiliki perintah tracert bawaan untuk penelusuran jaringan . Ia hampir tidak punya pilihan. Untuk menjalankan perintah, cukup tentukan nama host jarak jauh:
 
 ```bash
